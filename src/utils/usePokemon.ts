@@ -1,5 +1,6 @@
 import { Pokedex } from 'pokeapi-js-wrapper';
 import { useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import type { PokemonCryAndAnswer } from '../schemas/pokemon';
 import { getRandomItems } from './array';
 
@@ -8,11 +9,15 @@ const P = new Pokedex();
 export const useRandomPokemonCries = () => {
   const [pokemons, setPokemons] = useState<PokemonCryAndAnswer[]>();
 
+  // クエリパラメータで世代を受け取る
+  const [searchParams] = useSearchParams();
+  const generation = searchParams.get('generation');
+
   const fetchPokemon = useCallback(async () => {
     try {
       // 第１世代のポケモンを取得
       const { pokemon_species: firstGenerationPokemons } =
-        await P.getGenerationByName('generation-i');
+        await P.getGenerationByName(generation || 1);
 
       // ランダムに10匹選出
       const randomPokemons = await Promise.all(
@@ -38,7 +43,7 @@ export const useRandomPokemonCries = () => {
     } catch (err) {
       console.error('ポケモンの取得失敗:', err);
     }
-  }, []);
+  }, [generation]);
 
   useEffect(() => {
     fetchPokemon();
