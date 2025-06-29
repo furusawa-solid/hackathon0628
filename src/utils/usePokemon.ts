@@ -11,13 +11,20 @@ export const useRandomPokemonCries = () => {
 
   // クエリパラメータで世代を受け取る
   const [searchParams] = useSearchParams();
-  const generation = searchParams.get('generation');
+  const generationParam = Number(searchParams.get('generation'));
+  // 数字に変換 & バリデーション
+  const generation =
+    Number.isInteger(generationParam) &&
+    generationParam >= 1 &&
+    generationParam <= 9
+      ? generationParam
+      : 1;
 
   const fetchPokemon = useCallback(async () => {
     try {
-      // 第１世代のポケモンを取得
+      // 指定した世代のポケモンを取得
       const { pokemon_species: firstGenerationPokemons } =
-        await P.getGenerationByName(generation || 1);
+        await P.getGenerationByName(generation);
 
       // ランダムに10匹選出
       const randomPokemons = await Promise.all(
@@ -33,7 +40,9 @@ export const useRandomPokemonCries = () => {
           return {
             id: pokemon.id,
             name: pokemonJapaneseName,
-            cryUrl: pokemon.cries.legacy,
+            cryUrl:
+              // 5世代以降はレガシーバージョンの鳴き声がない
+              generation >= 5 ? pokemon.cries.latest : pokemon.cries.legacy,
             answer: '',
           };
         }),
