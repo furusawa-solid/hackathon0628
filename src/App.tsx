@@ -6,15 +6,15 @@ import { QuizResult } from './features/pokemonCryQuiz/quizResult';
 
 const App = () => {
   return (
-    <div className="flex flex-col justify-start gap-y-3 p-4">
-      <Heading level={1}>Pokémon 鳴き声クイズ</Heading>
-      <BrowserRouter>
+    <BrowserRouter>
+      <div className="flex flex-col justify-start gap-y-3 p-4">
+        <Heading level={1}>Pokémon 鳴き声クイズ</Heading>
         <Routes>
           <Route path="/quiz" element={<PokemonCryQuizForm />} />
           <Route path="/result" element={<QuizResult />} />
         </Routes>
-      </BrowserRouter>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 };
 
