@@ -55,26 +55,30 @@ export const PokemonCryQuizForm = () => {
   };
 
   return (
-    <>
-      <Heading level={3}>第{quizNumber + 1}問</Heading>
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-y-3 rounded-lg border border-gray-700 bg-gray-800 p-4 text-white shadow-lg">
+      <Heading level={3} className="font-bold text-xl text-yellow-400">
+        第{quizNumber + 1}問
+      </Heading>
       <p>この鳴き声のポケモンの名前は？</p>
-      <IconButton
-        label="再生する"
-        icon={faPlay}
-        onClick={() => playCry(pokemons[quizNumber].cryUrl)}
-        className="rounded-md px-3 py-1.5"
-      />
+      <div className="flex justify-center">
+        <IconButton
+          label="再生する"
+          icon={faPlay}
+          onClick={() => playCry(pokemons[quizNumber].cryUrl)}
+          className="flex items-center justify-center gap-2 rounded-full px-4 py-2 font-semibold text-sm text-white transition"
+        />
+      </div>
       {errors.answer && <p className="text-red-500">{errors.answer.message}</p>}
       <Input
-        className="flex rounded-md py-1.5"
         register={register('answer')}
-        inputProps={{ placeholder: 'ポケモンのなまえを入力' }}
+        inputProps={{ placeholder: 'ポケモンの名前を入力' }}
+        className="w-full bg-gray-700 px-4 py-2 text-gray-100 placeholder-gray-400"
       />
       <LabelButton
         label="このポケモンに決めた！"
         onClick={handleSubmit(onSubmit)}
-        className="rounded-md px-3 py-1.5"
+        className="w-full py-2 font-semibold text-white transition"
       />
-    </>
+    </div>
   );
 };

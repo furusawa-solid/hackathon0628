@@ -13,12 +13,10 @@ export const Input = ({
   className = '',
 }: InputWithButtonProps) => {
   return (
-    <div className={`${className}`}>
-      <ReactInput
-        {...register}
-        {...inputProps}
-        className="box-border flex-1 rounded-md border-none bg-neutral-600 px-2 py-1 outline-none"
-      />
-    </div>
+    <ReactInput
+      {...register}
+      {...inputProps}
+      className={`box-border flex-1 rounded-md border-none bg-gray-600 px-2 py-1 outline-none ${className}`}
+    />
   );
 };
