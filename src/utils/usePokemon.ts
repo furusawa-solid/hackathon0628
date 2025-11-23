@@ -23,14 +23,16 @@ export const useRandomPokemonCries = () => {
   const fetchPokemon = useCallback(async () => {
     try {
       // 指定した世代のポケモンを取得
-      const { pokemon_species: firstGenerationPokemons } =
-        await P.getGenerationByName(generation);
+      // const { pokemon_species: firstGenerationPokemons } =
+      const response = await P.getGenerationByName(generation);
+      const firstGenerationPokemons = response.pokemon_species;
 
       // ランダムに10匹選出
       const randomPokemons = await Promise.all(
-        getRandomItems(firstGenerationPokemons, 10).map(({ name }) =>
-          P.getPokemonByName(name),
-        ),
+        getRandomItems(firstGenerationPokemons, 10).map(({ url }) => {
+          const pokemonId = url.match(/\/(\d+)\/$/)?.[1] as string;
+          return P.getPokemonByName(pokemonId);
+        }),
       );
 
       // 日本語名の取得 & 扱いやすい形にマッピング
