@@ -1,13 +1,12 @@
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { Heading } from '../../components/ui/Heading';
 import { IconButton } from '../../components/ui/IconButton';
 import { Input } from '../../components/ui/Input';
 import { LabelButton } from '../../components/ui/LabelButton';
-
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Heading } from '../../components/ui/Heading';
 import {
   type PokemonCryAnswerForm,
   pokemonCryAnswerFormSchema,
@@ -71,7 +70,10 @@ export const PokemonCryQuizForm = () => {
       {errors.answer && <p className="text-red-500">{errors.answer.message}</p>}
       <Input
         register={register('answer')}
-        inputProps={{ placeholder: 'ポケモンの名前を入力' }}
+        inputProps={{
+          placeholder: 'ポケモンの名前を入力',
+          autoComplete: 'off',
+        }}
         className="w-full bg-gray-700 px-4 py-2 text-gray-100 placeholder-gray-400"
       />
       <LabelButton
