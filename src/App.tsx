@@ -1,8 +1,8 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Heading } from './components/ui/Heading';
-import { PokemonCryQuizForm } from './features/pokemonCryQuiz/pokemonCryQuizForm';
-import { QuizResult } from './features/pokemonCryQuiz/quizResult';
+import { PokemonCryQuizForm } from './features/pokemonCryQuiz/PokemonCryQuizForm';
+import { QuizResult } from './features/pokemonCryQuiz/QuizResult';
 
 const App = () => {
   return (
