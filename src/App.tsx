@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Heading } from './components/ui/Heading';
+import { NotFound } from './features/pokemonCryQuiz/404';
 import { PokemonCryQuizForm } from './features/pokemonCryQuiz/PokemonCryQuizForm';
 import { QuizResult } from './features/pokemonCryQuiz/QuizResult';
 import { SetupForm } from './features/pokemonCryQuiz/SetupForm';
@@ -14,6 +15,7 @@ const App = () => {
           <Route path="/setup" element={<SetupForm />} />
           <Route path="/quiz" element={<PokemonCryQuizForm />} />
           <Route path="/result" element={<QuizResult />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </BrowserRouter>
