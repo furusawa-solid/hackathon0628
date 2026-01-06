@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import { cryVersionsSchema } from './cries';
-import { generationsSchema } from './generation';
+import { cryVersionSchema } from './cryVersion';
+import { generationSchema } from './generation';
 
 export const configSchema = z.object({
-  generation: generationsSchema,
-  cryVersion: cryVersionsSchema,
+  generation: generationSchema,
+  cryVersion: cryVersionSchema,
 });
 
 export type GameConfig = z.infer<typeof configSchema>;

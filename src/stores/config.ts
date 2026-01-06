@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { type CryVersion, CryVersions } from '../schemas/cries';
+import { type CryVersion, CryVersions } from '../schemas/cryVersion';
 import { type Generation, Generations } from '../schemas/generation';
 
 type GameConfigStore = {

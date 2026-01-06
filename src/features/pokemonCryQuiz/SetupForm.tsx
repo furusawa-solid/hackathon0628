@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Divider } from '../../components/ui/Divider';
@@ -7,7 +8,7 @@ import { Heading } from '../../components/ui/Heading';
 import { LabelButton } from '../../components/ui/LabelButton';
 import { RadioGroup } from '../../components/ui/RadioGroup';
 import { type GameConfig, configSchema } from '../../schemas/config';
-import { CryVersions } from '../../schemas/cries';
+import { CryVersions } from '../../schemas/cryVersion';
 import { Generations } from '../../schemas/generation';
 import { useConfigStore } from '../../stores/config';
 
@@ -15,13 +16,23 @@ export const SetupForm = () => {
   const navigate = useNavigate();
   const { setGeneration, setCryVersion } = useConfigStore();
 
-  const { control, handleSubmit, reset } = useForm<GameConfig>({
-    resolver: zodResolver(configSchema),
-    defaultValues: {
-      generation: Generations.I,
-      cryVersion: CryVersions.LEGACY,
+  const { control, handleSubmit, reset, setValue, watch } = useForm<GameConfig>(
+    {
+      resolver: zodResolver(configSchema),
+      defaultValues: {
+        generation: Generations.I,
+        cryVersion: CryVersions.LEGACY,
+      },
     },
-  });
+  );
+
+  const generation = watch('generation');
+
+  useEffect(() => {
+    if (generation >= Generations.VI) {
+      setValue('cryVersion', CryVersions.LATEST);
+    }
+  }, [generation, setValue]);
 
   const onSubmit = (form: GameConfig) => {
     const { generation, cryVersion } = form;
@@ -73,13 +84,13 @@ export const SetupForm = () => {
     {
       label: '旧バージョン',
       value: CryVersions.LEGACY,
-      description:
-        '5世代以前の鳴き声でプレイします。\n※第6世代以降を選んだ場合は新バージョンの鳴き声になります。',
+      disabled: generation >= Generations.VI,
+      description: '5世代以前の鳴き声でプレイする',
     },
     {
       label: '新バージョン',
       value: CryVersions.LATEST,
-      description: '6世代以降の鳴き声でプレイします。',
+      description: '6世代以降の鳴き声でプレイする',
     },
   ];
 

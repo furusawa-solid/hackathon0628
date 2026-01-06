@@ -1,6 +1,5 @@
 import { Pokedex } from 'pokeapi-js-wrapper';
 import { useCallback, useEffect, useState } from 'react';
-import { Generations } from '../schemas/generation';
 import type { PokemonCryAndAnswer } from '../schemas/pokemon';
 import { useConfigStore } from '../stores/config';
 import { getRandomItems } from './array';
@@ -33,11 +32,7 @@ export const useRandomPokemonCries = () => {
           return {
             id: pokemon.id,
             name: pokemonJapaneseName,
-            cryUrl:
-              // 6世代以降はレガシーバージョンの鳴き声がない
-              Number(generation) >= Number(Generations.VI)
-                ? pokemon.cries.latest
-                : pokemon.cries[cryVersion],
+            cryUrl: pokemon.cries[cryVersion],
             answer: '',
           };
         }),

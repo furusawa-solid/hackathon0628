@@ -5,6 +5,7 @@ import {
   RadioGroup as HeadlessRadioGroup,
   Radio,
 } from '@headlessui/react';
+import clsx from 'clsx';
 import {
   type Control,
   Controller,
@@ -15,6 +16,7 @@ import {
 type Option<T extends string | number> = {
   label: string;
   value: T;
+  disabled?: boolean;
   description: string;
 };
 
@@ -53,7 +55,11 @@ export const RadioGroup = <
                 <Radio
                   key={option.value}
                   value={option.value}
-                  className="group relative flex cursor-pointer rounded-lg bg-white/5 px-3 py-2 text-white shadow-md transition focus:not-data-focus:outline-none data-checked:bg-white/10 data-focus:outline data-focus:outline-white"
+                  disabled={option.disabled}
+                  className={clsx(
+                    'group relative flex cursor-pointer rounded-lg bg-white/5 px-3 py-2 text-white shadow-md transition data-checked:bg-white/10 data-focus:outline data-focus:outline-white',
+                    'data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:bg-white/3 data-disabled:opacity-40 data-disabled:shadow-none',
+                  )}
                 >
                   <div className="flex w-full items-center justify-between gap-2 text-sm/6">
                     <p className="whitespace-nowrap text-white">

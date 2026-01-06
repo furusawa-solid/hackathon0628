@@ -1,5 +1,17 @@
 import { z } from 'zod';
 
+const GENERATION_VALUES = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+] as const;
+
 export const Generations = {
   I: '1',
   II: '2',
@@ -10,10 +22,8 @@ export const Generations = {
   VII: '7',
   VIII: '8',
   IX: '9',
-} as const;
+} as const satisfies Record<string, (typeof GENERATION_VALUES)[number]>;
 
-export const generationsSchema = z.enum(
-  Object.values(Generations) as [string, ...string[]],
-);
+export const generationSchema = z.enum(GENERATION_VALUES);
 
-export type Generation = z.infer<typeof generationsSchema>;
+export type Generation = z.infer<typeof generationSchema>;
