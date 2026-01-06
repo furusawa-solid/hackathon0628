@@ -7,6 +7,8 @@ import { FieldsetGroup } from '../../components/ui/FieldsetGroup';
 import { Heading } from '../../components/ui/Heading';
 import { LabelButton } from '../../components/ui/LabelButton';
 import { RadioGroup } from '../../components/ui/RadioGroup';
+import { CRY_VERSION_OPTIONS } from '../../constants/cryVersions';
+import { GENERATION_OPTIONS } from '../../constants/generations';
 import { type GameConfig, configSchema } from '../../schemas/config';
 import { CryVersions } from '../../schemas/cryVersion';
 import { Generations } from '../../schemas/generation';
@@ -42,57 +44,11 @@ export const SetupForm = () => {
     navigate('/quiz');
   };
 
-  // TODO: どっかに切り出した方がいい
-  const generations = [
-    { label: '第1世代', value: Generations.I, description: '赤・緑' },
-    { label: '第2世代', value: Generations.II, description: '金・銀' },
-    {
-      label: '第3世代',
-      value: Generations.III,
-      description: 'ルビー・サファイア',
-    },
-    {
-      label: '第4世代',
-      value: Generations.IV,
-      description: 'ダイヤモンド・パール',
-    },
-    {
-      label: '第5世代',
-      value: Generations.V,
-      description: 'ブラック・ホワイト',
-    },
-    { label: '第6世代', value: Generations.VI, description: 'X・Y' },
-    {
-      label: '第7世代',
-      value: Generations.VII,
-      description: "サン・ムーン/Let's Go! ピカチュウ・Let's Go! イーブイ",
-    },
-    {
-      label: '第8世代',
-      value: Generations.VIII,
-      description: 'ソード・シールド/LEGENDS アルセウス',
-    },
-    {
-      label: '第9世代',
-      value: Generations.IX,
-      description: 'スカーレット・バイオレット',
-    },
-  ];
-
-  // TODO: どっかに切り出した方がいい
-  const cryVersions = [
-    {
-      label: '旧バージョン',
-      value: CryVersions.LEGACY,
-      disabled: generation >= Generations.VI,
-      description: '5世代以前の鳴き声でプレイする',
-    },
-    {
-      label: '新バージョン',
-      value: CryVersions.LATEST,
-      description: '6世代以降の鳴き声でプレイする',
-    },
-  ];
+  const cryVersionOptions = CRY_VERSION_OPTIONS.map((option) => ({
+    ...option,
+    disabled:
+      generation >= Generations.VI && option.value === CryVersions.LEGACY,
+  }));
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-y-3 rounded-lg border border-gray-700 bg-gray-800 p-4 text-white shadow-lg">
@@ -105,7 +61,11 @@ export const SetupForm = () => {
         className="flex flex-col gap-y-1.5"
         legendClassName="text-base font-semibold"
       >
-        <RadioGroup control={control} name="generation" options={generations} />
+        <RadioGroup
+          control={control}
+          name="generation"
+          options={GENERATION_OPTIONS}
+        />
       </FieldsetGroup>
 
       <Divider />
@@ -115,7 +75,11 @@ export const SetupForm = () => {
         className="flex flex-col gap-y-1.5"
         legendClassName="text-base font-semibold"
       >
-        <RadioGroup control={control} name="cryVersion" options={cryVersions} />
+        <RadioGroup
+          control={control}
+          name="cryVersion"
+          options={cryVersionOptions}
+        />
       </FieldsetGroup>
 
       <LabelButton
