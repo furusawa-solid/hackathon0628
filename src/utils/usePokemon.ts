@@ -1,24 +1,15 @@
 import { Pokedex } from 'pokeapi-js-wrapper';
 import { useCallback, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Generations } from '../schemas/generation';
 import type { PokemonCryAndAnswer } from '../schemas/pokemon';
+import { useConfigStore } from '../stores/config';
 import { getRandomItems } from './array';
 
 const P = new Pokedex();
 
 export const useRandomPokemonCries = () => {
   const [pokemons, setPokemons] = useState<PokemonCryAndAnswer[]>();
-
-  // クエリパラメータで世代を受け取る
-  const [searchParams] = useSearchParams();
-  const generationParam = Number(searchParams.get('generation'));
-  // 数字に変換 & バリデーション
-  const generation =
-    Number.isInteger(generationParam) &&
-    generationParam >= 1 &&
-    generationParam <= 9
-      ? generationParam
-      : 1;
+  const { generation, cryVersion } = useConfigStore();
 
   const fetchPokemon = useCallback(async () => {
     try {
@@ -43,8 +34,10 @@ export const useRandomPokemonCries = () => {
             id: pokemon.id,
             name: pokemonJapaneseName,
             cryUrl:
-              // 5世代以降はレガシーバージョンの鳴き声がない
-              generation >= 5 ? pokemon.cries.latest : pokemon.cries.legacy,
+              // 6世代以降はレガシーバージョンの鳴き声がない
+              Number(generation) >= Number(Generations.VI)
+                ? pokemon.cries.latest
+                : pokemon.cries[cryVersion],
             answer: '',
           };
         }),
@@ -54,7 +47,7 @@ export const useRandomPokemonCries = () => {
     } catch (err) {
       console.error('ポケモンの取得失敗:', err);
     }
-  }, [generation]);
+  }, [generation, cryVersion]);
 
   useEffect(() => {
     fetchPokemon();
