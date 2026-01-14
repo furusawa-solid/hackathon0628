@@ -1,4 +1,4 @@
-import { faPlay, faRedo } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faPlay, faRedo } from '@fortawesome/free-solid-svg-icons';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
 import { IconButton } from '../../components/ui/IconButton';
@@ -57,11 +57,17 @@ export const QuizResult = () => {
         })}
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-around gap-4">
         <IconButton
           label="再チャレンジ"
           icon={faRedo}
           onClick={() => navigate('/quiz')}
+          className="inline-flex items-center gap-2 px-5 py-3 font-semibold text-white transition"
+        />
+        <IconButton
+          label="ゲーム設定"
+          icon={faGear}
+          onClick={() => navigate('/setup')}
           className="inline-flex items-center gap-2 px-5 py-3 font-semibold text-white transition"
         />
       </div>
